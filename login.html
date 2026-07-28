@@ -1,0 +1,1169 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>
+
+        Import Stock | SoufStock Enterprise ERP
+
+    </title>
+
+    <!-- Google Fonts -->
+
+    <link rel="preconnect"
+          href="https://fonts.googleapis.com">
+
+    <link rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <!-- Font Awesome -->
+
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+    <!-- Dashboard CSS -->
+
+    <link
+        rel="stylesheet"
+        href="../assets/css/dashboard.css">
+
+    <!-- Import Stock CSS -->
+
+    <link
+        rel="stylesheet"
+        href="../assets/css/import_stock.css">
+
+</head>
+
+<body>
+
+<div class="app">
+
+    <!-- ==========================================================
+         SIDEBAR
+         Copier depuis dashboard.html
+    =========================================================== -->
+
+    <!-- Sidebar -->
+
+    <main class="main">
+
+        <!-- ======================================================
+             TOPBAR
+             Copier depuis dashboard.html
+        ======================================================= -->
+
+        <!-- Topbar -->
+
+        <div class="content">
+
+            <!-- ==================================================
+                 PAGE HEADER
+            =================================================== -->
+
+            <section class="page-header">
+
+                <div>
+
+                    <h2>
+
+                        Importation du Stock
+
+                    </h2>
+
+                    <p>
+
+                        Importer un fichier Excel dans SoufStock Enterprise ERP.
+
+                    </p>
+
+                </div>
+
+            </section>
+
+            <!-- ===========================
+                 PART 2
+            ============================ -->
+            <!-- ==========================================================
+     IMPORT STOCK
+========================================================== -->
+
+<section class="import-section">
+
+    <div class="import-card">
+
+        <div class="import-header">
+
+            <h3>
+
+                <i class="fas fa-file-excel"></i>
+
+                Import Excel
+
+            </h3>
+
+            <p>
+
+                Sélectionnez un fichier Excel contenant les données du stock.
+
+            </p>
+
+        </div>
+
+        <!-- ==========================================
+             DRAG & DROP
+        =========================================== -->
+
+        <div
+            id="dropZone"
+            class="drop-zone">
+
+            <div class="drop-icon">
+
+                <i class="fas fa-cloud-upload-alt"></i>
+
+            </div>
+
+            <h3>
+
+                Glissez votre fichier Excel ici
+
+            </h3>
+
+            <p>
+
+                ou
+
+            </p>
+
+            <label
+                for="excelFile"
+                class="btn-upload">
+
+                <i class="fas fa-folder-open"></i>
+
+                Choisir un fichier Excel
+
+            </label>
+
+            <input
+                type="file"
+                id="excelFile"
+                accept=".xlsx,.xls"
+                hidden>
+
+            <small>
+
+                Formats acceptés :
+                XLSX • XLS
+
+            </small>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- ==========================================================
+     INFORMATIONS DU FICHIER
+========================================================== -->
+
+<section class="file-info-section">
+
+    <div class="info-grid">
+
+        <div class="info-card">
+
+            <span>
+
+                Nom du fichier
+
+            </span>
+
+            <strong id="fileName">
+
+                Aucun fichier
+
+            </strong>
+
+        </div>
+
+        <div class="info-card">
+
+            <span>
+
+                Taille
+
+            </span>
+
+            <strong id="fileSize">
+
+                0 KB
+
+            </strong>
+
+        </div>
+
+        <div class="info-card">
+
+            <span>
+
+                Feuille Excel
+
+            </span>
+
+            <strong id="sheetName">
+
+                -
+
+            </strong>
+
+        </div>
+
+        <div class="info-card">
+
+            <span>
+
+                Nombre de lignes
+
+            </span>
+
+            <strong id="rowCount">
+
+                0
+
+            </strong>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- ===========================
+     PART 3
+=========================== -->
+            <!-- ==========================================================
+     APERÇU DU FICHIER EXCEL
+========================================================== -->
+
+<section class="preview-section">
+
+    <div class="section-header">
+
+        <div>
+
+            <h3>
+
+                <i class="fas fa-table"></i>
+
+                Aperçu des données
+
+            </h3>
+
+            <p>
+
+                Vérifiez les informations avant de lancer l'import.
+
+            </p>
+
+        </div>
+
+        <div class="header-actions">
+
+            <button
+                id="refreshPreview"
+                class="btn-secondary">
+
+                <i class="fas fa-rotate"></i>
+
+                Actualiser
+
+            </button>
+
+        </div>
+
+    </div>
+
+    <div class="table-container">
+
+        <table
+            id="previewTable"
+            class="preview-table">
+
+            <thead>
+
+                <tr>
+
+                    <th>#</th>
+
+                    <th>Division</th>
+
+                    <th>Magasin</th>
+
+                    <th>Article</th>
+
+                    <th>Désignation</th>
+
+                    <th>Lot</th>
+
+                    <th>Quantité</th>
+
+                    <th>Unité</th>
+
+                    <th>Type</th>
+
+                    <th>Groupe</th>
+
+                    <th>Qualité</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody id="previewTableBody">
+
+                <tr>
+
+                    <td
+                        colspan="11"
+                        class="empty-table">
+
+                        <i class="fas fa-file-excel"></i>
+
+                        <br>
+
+                        Aucun fichier chargé.
+
+                    </td>
+
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</section>
+
+<!-- ==========================================================
+     RÉSUMÉ DU FICHIER
+========================================================== -->
+
+<section class="summary-section">
+
+    <div class="summary-grid">
+
+        <div class="summary-card">
+
+            <i class="fas fa-boxes"></i>
+
+            <span>
+
+                Articles
+
+            </span>
+
+            <strong id="summaryArticles">
+
+                0
+
+            </strong>
+
+        </div>
+
+        <div class="summary-card">
+
+            <i class="fas fa-layer-group"></i>
+
+            <span>
+
+                Lots
+
+            </span>
+
+            <strong id="summaryLots">
+
+                0
+
+            </strong>
+
+        </div>
+
+        <div class="summary-card">
+
+            <i class="fas fa-warehouse"></i>
+
+            <span>
+
+                Magasins
+
+            </span>
+
+            <strong id="summaryMagasins">
+
+                0
+
+            </strong>
+
+        </div>
+
+        <div class="summary-card">
+
+            <i class="fas fa-weight-hanging"></i>
+
+            <span>
+
+                Quantité Totale
+
+            </span>
+
+            <strong id="summaryQuantity">
+
+                0
+
+            </strong>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- ===========================
+     PART 4
+=========================== -->
+            <!-- ==========================================================
+     MODE D'IMPORT
+========================================================== -->
+
+<section class="import-mode-section">
+
+    <div class="section-header">
+
+        <div>
+
+            <h3>
+
+                <i class="fas fa-database"></i>
+
+                Mode d'import
+
+            </h3>
+
+            <p>
+
+                Choisissez la méthode d'importation du stock.
+
+            </p>
+
+        </div>
+
+    </div>
+
+    <div class="mode-grid">
+
+        <!-- ==========================
+             REMPLACER
+        =========================== -->
+
+        <label class="mode-card replace">
+
+            <input
+                type="radio"
+                name="importMode"
+                value="REMPLACER">
+
+            <div class="mode-icon">
+
+                <i class="fas fa-trash-can"></i>
+
+            </div>
+
+            <h3>
+
+                Remplacer
+
+            </h3>
+
+            <p>
+
+                Supprime complètement le stock actuel puis importe le nouveau fichier.
+
+            </p>
+
+        </label>
+
+        <!-- ==========================
+             MISE A JOUR
+        =========================== -->
+
+        <label class="mode-card update">
+
+            <input
+                type="radio"
+                name="importMode"
+                value="MISE_A_JOUR"
+                checked>
+
+            <div class="mode-icon">
+
+                <i class="fas fa-pen"></i>
+
+            </div>
+
+            <h3>
+
+                Mise à jour
+
+            </h3>
+
+            <p>
+
+                Met à jour les articles existants et ajoute les nouveaux articles.
+
+            </p>
+
+        </label>
+
+        <!-- ==========================
+             SYNCHRONISATION
+        =========================== -->
+
+        <label class="mode-card sync">
+
+            <input
+                type="radio"
+                name="importMode"
+                value="SYNCHRONISATION">
+
+            <div class="mode-icon">
+
+                <i class="fas fa-arrows-rotate"></i>
+
+            </div>
+
+            <h3>
+
+                Synchronisation
+
+            </h3>
+
+            <p>
+
+                Synchronise complètement la base avec le fichier Excel.
+
+            </p>
+
+        </label>
+
+    </div>
+
+</section>
+
+<!-- ==========================================================
+     RÉSUMÉ AVANT IMPORT
+========================================================== -->
+
+<section class="import-summary">
+
+    <div class="summary-box">
+
+        <div class="summary-item">
+
+            <span>
+
+                Mode sélectionné
+
+            </span>
+
+            <strong id="selectedMode">
+
+                Mise à jour
+
+            </strong>
+
+        </div>
+
+        <div class="summary-item">
+
+            <span>
+
+                Statut
+
+            </span>
+
+            <strong id="importStatus">
+
+                Prêt à importer
+
+            </strong>
+
+        </div>
+
+        <button
+            id="startImportBtn"
+            class="btn-import">
+
+            <i class="fas fa-file-import"></i>
+
+            Lancer l'import
+
+        </button>
+
+    </div>
+
+</section>
+
+<!-- ===========================
+     PART 5
+=========================== -->
+            <!-- ==========================================================
+     PROGRESSION DE L'IMPORT
+========================================================== -->
+
+<section
+    id="progressSection"
+    class="progress-section">
+
+    <div class="section-header">
+
+        <div>
+
+            <h3>
+
+                <i class="fas fa-spinner"></i>
+
+                Progression de l'import
+
+            </h3>
+
+            <p>
+
+                Suivez l'avancement de l'importation en temps réel.
+
+            </p>
+
+        </div>
+
+    </div>
+
+    <div class="progress-card">
+
+        <div class="progress-header">
+
+            <span>
+
+                Progression
+
+            </span>
+
+            <strong id="progressPercent">
+
+                0%
+
+            </strong>
+
+        </div>
+
+        <div class="progress-bar-container">
+
+            <div
+                id="progressBar"
+                class="progress-bar">
+
+            </div>
+
+        </div>
+
+        <div class="progress-footer">
+
+            <span>
+
+                <strong id="processedRows">
+
+                    0
+
+                </strong>
+
+                lignes traitées
+
+            </span>
+
+            <span>
+
+                <strong id="totalRowsImport">
+
+                    0
+
+                </strong>
+
+                lignes
+
+            </span>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- ==========================================================
+     RAPPORT D'IMPORT
+========================================================== -->
+
+<section class="report-section">
+
+    <div class="section-header">
+
+        <div>
+
+            <h3>
+
+                <i class="fas fa-chart-column"></i>
+
+                Rapport d'import
+
+            </h3>
+
+            <p>
+
+                Résultat de l'opération d'importation.
+
+            </p>
+
+        </div>
+
+    </div>
+
+    <div class="report-grid">
+
+        <div class="report-card success">
+
+            <i class="fas fa-circle-plus"></i>
+
+            <span>
+
+                Articles ajoutés
+
+            </span>
+
+            <h2 id="addedCount">
+
+                0
+
+            </h2>
+
+        </div>
+
+        <div class="report-card warning">
+
+            <i class="fas fa-pen"></i>
+
+            <span>
+
+                Articles modifiés
+
+            </span>
+
+            <h2 id="updatedCount">
+
+                0
+
+            </h2>
+
+        </div>
+
+        <div class="report-card danger">
+
+            <i class="fas fa-trash"></i>
+
+            <span>
+
+                Articles supprimés
+
+            </span>
+
+            <h2 id="deletedCount">
+
+                0
+
+            </h2>
+
+        </div>
+
+        <div class="report-card info">
+
+            <i class="fas fa-circle-exclamation"></i>
+
+            <span>
+
+                Erreurs
+
+            </span>
+
+            <h2 id="errorCount">
+
+                0
+
+            </h2>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- ==========================================================
+     ACTIONS
+========================================================== -->
+
+<section class="action-section">
+
+    <div class="action-buttons">
+
+        <button
+            id="cancelImportBtn"
+            class="btn-secondary">
+
+            <i class="fas fa-xmark"></i>
+
+            Annuler
+
+        </button>
+
+        <button
+            id="downloadReportBtn"
+            class="btn-secondary">
+
+            <i class="fas fa-download"></i>
+
+            Télécharger le rapport
+
+        </button>
+
+        <button
+            id="finishImportBtn"
+            class="btn-primary">
+
+            <i class="fas fa-check"></i>
+
+            Terminer
+
+        </button>
+
+    </div>
+
+</section>
+
+<!-- ===========================
+     PART 6
+=========================== -->
+            <!-- ==========================================================
+     HISTORIQUE DES IMPORTS
+========================================================== -->
+
+<section class="history-section">
+
+    <div class="section-header">
+
+        <div>
+
+            <h3>
+
+                <i class="fas fa-clock-rotate-left"></i>
+
+                Historique des imports
+
+            </h3>
+
+            <p>
+
+                Consultez les dernières opérations d'importation.
+
+            </p>
+
+        </div>
+
+        <div class="history-actions">
+
+            <button
+                id="refreshHistoryBtn"
+                class="btn-secondary">
+
+                <i class="fas fa-rotate"></i>
+
+                Actualiser
+
+            </button>
+
+        </div>
+
+    </div>
+
+    <div class="table-container">
+
+        <table
+            class="history-table">
+
+            <thead>
+
+                <tr>
+
+                    <th>Date</th>
+
+                    <th>Utilisateur</th>
+
+                    <th>Fichier</th>
+
+                    <th>Mode</th>
+
+                    <th>Lignes</th>
+
+                    <th>Ajoutés</th>
+
+                    <th>Modifiés</th>
+
+                    <th>Supprimés</th>
+
+                    <th>Statut</th>
+
+                    <th>Actions</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody id="historyTableBody">
+
+                <tr>
+
+                    <td
+                        colspan="10"
+                        class="empty-table">
+
+                        <i class="fas fa-folder-open"></i>
+
+                        <br>
+
+                        Aucun historique disponible.
+
+                    </td>
+
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</section>
+
+<!-- ==========================================================
+     MODAL DÉTAILS IMPORT
+========================================================== -->
+
+<div
+    id="historyModal"
+    class="modal">
+
+    <div class="modal-content modal-lg">
+
+        <div class="modal-header">
+
+            <h3>
+
+                <i class="fas fa-file-circle-check"></i>
+
+                Détails de l'import
+
+            </h3>
+
+            <button
+                id="closeHistoryModal"
+                class="modal-close">
+
+                <i class="fas fa-times"></i>
+
+            </button>
+
+        </div>
+
+        <div
+            id="historyDetails"
+            class="modal-body">
+
+            <!-- Rempli automatiquement -->
+
+        </div>
+
+        <div class="modal-footer">
+
+            <button
+                class="btn-secondary"
+                id="closeHistoryBtn">
+
+                Fermer
+
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- ===========================
+     PART 7
+=========================== -->
+            <!-- ==========================================================
+     PART 7
+     MODAL + LOADER + TOAST + SCRIPTS
+========================================================== -->
+
+<!-- ==========================================================
+     CONFIRMATION MODAL
+========================================================== -->
+
+<div
+    id="confirmImportModal"
+    class="modal">
+
+    <div class="modal-content">
+
+        <div class="modal-header">
+
+            <h3>
+
+                <i class="fas fa-triangle-exclamation"></i>
+
+                Confirmation
+
+            </h3>
+
+            <button
+                id="closeConfirmModal"
+                class="modal-close">
+
+                <i class="fas fa-times"></i>
+
+            </button>
+
+        </div>
+
+        <div class="modal-body">
+
+            <p>
+
+                Voulez-vous vraiment lancer l'importation du fichier Excel ?
+
+            </p>
+
+            <div class="warning-box">
+
+                <i class="fas fa-circle-info"></i>
+
+                Cette opération peut modifier les données du stock.
+
+            </div>
+
+        </div>
+
+        <div class="modal-footer">
+
+            <button
+                id="cancelImportModal"
+                class="btn-secondary">
+
+                Annuler
+
+            </button>
+
+            <button
+                id="confirmImportModalBtn"
+                class="btn-primary">
+
+                <i class="fas fa-file-import"></i>
+
+                Confirmer
+
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- ==========================================================
+     PAGE LOADER
+========================================================== -->
+
+<div
+    id="pageLoader"
+    class="page-loader">
+
+    <div class="loader-spinner"></div>
+
+    <h3>
+
+        Importation en cours...
+
+    </h3>
+
+    <p id="loaderText">
+
+        Veuillez patienter...
+
+    </p>
+
+</div>
+
+<!-- ==========================================================
+     TOAST
+========================================================== -->
+
+<div
+    id="toastContainer"
+    class="toast-container">
+
+</div>
+
+        </div>
+
+    </main>
+
+</div>
+
+<!-- ==========================================================
+     SHEETJS
+========================================================== -->
+
+<script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
+
+<!-- ==========================================================
+     IMPORT STOCK
+========================================================== -->
+
+<script
+    type="module"
+    src="/assets/js/import_stock.js"></script>
+
+</body>
+
+</html>
